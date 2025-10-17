@@ -13,6 +13,11 @@ GameManager::GameManager(sf::RenderWindow* window)
     _masterText.setPosition(50, 400);
     _masterText.setCharacterSize(48);
     _masterText.setFillColor(sf::Color::Yellow);
+
+
+
+  
+
 }
 
 void GameManager::initialize()

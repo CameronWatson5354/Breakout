@@ -10,6 +10,7 @@
 
 
 
+
 class GameManager {
 public:
     GameManager(sf::RenderWindow* window);
@@ -38,6 +39,8 @@ private:
 
     sf::Font _font;
     sf::Text _masterText;
+
+   
 
     sf::RenderWindow* _window;
     Paddle* _paddle;

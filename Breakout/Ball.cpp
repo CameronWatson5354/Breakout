@@ -8,6 +8,13 @@ Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
     _sprite.setRadius(RADIUS);
     _sprite.setFillColor(sf::Color::Cyan);
     _sprite.setPosition(0, 300);
+
+    bounceBuffer.loadFromFile("sfx/bounce.wav");
+    bounceSound.setBuffer(bounceBuffer);
+    bounceSound.setVolume(25.0f);
+
+    collectBuffer.loadFromFile("sfx/collect.wav");
+    collectSound.setBuffer(collectBuffer);
 }
 
 Ball::~Ball()
@@ -51,12 +58,16 @@ void Ball::update(float dt)
     if ((position.x >= windowDimensions.x - 2 * RADIUS && _direction.x > 0) || (position.x <= 0 && _direction.x < 0))
     {
         _direction.x *= -1;
+
+        bounceSound.play();
     }
 
     // bounce on ceiling
     if (position.y <= 0 && _direction.y < 0)
     {
         _direction.y *= -1;
+
+        bounceSound.play();
     }
 
     // lose life bounce
@@ -77,6 +88,9 @@ void Ball::update(float dt)
 
         // Adjust position to avoid getting stuck inside the paddle
         _sprite.setPosition(_sprite.getPosition().x, _gameManager->getPaddle()->getBounds().top - 2 * RADIUS);
+
+        bounceSound.play();
+        successiveCollects = 0;
     }
 
     // collision with bricks
@@ -85,10 +99,16 @@ void Ball::update(float dt)
     if (collisionResponse == 1)
     {
         _direction.x *= -1; // Bounce horizontally
+        collectSound.setPitch(1.0f + successiveCollects * 0.1);
+        collectSound.play();
+        ++successiveCollects;
     }
     else if (collisionResponse == 2)
     {
         _direction.y *= -1; // Bounce vertically
+        collectSound.setPitch(1.0f + successiveCollects * 0.1);
+        collectSound.play();
+        ++successiveCollects;
     }
 }
 

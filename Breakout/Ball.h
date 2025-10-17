@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "SFML/Audio.hpp"
 
 
 class GameManager;  // forward declaration
@@ -25,6 +26,14 @@ private:
     float _timeWithPowerupEffect;
 
     GameManager* _gameManager;  // Reference to the GameManager
+
+    sf::SoundBuffer bounceBuffer;
+    sf::Sound bounceSound;
+
+    sf::SoundBuffer collectBuffer;
+    sf::Sound collectSound;
+
+    int successiveCollects{ 0 };
 
 
     static constexpr float RADIUS = 10.0f;      
