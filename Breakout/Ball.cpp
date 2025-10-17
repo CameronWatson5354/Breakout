@@ -1,6 +1,8 @@
 #include "Ball.h"
 #include "GameManager.h" // avoid cicular dependencies
 
+#include "particle.h"
+
 Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
     : _window(window), _velocity(velocity), _gameManager(gameManager),
     _timeWithPowerupEffect(0.f), _isFireBall(false), _isAlive(true), _direction({1,1})
@@ -102,6 +104,8 @@ void Ball::update(float dt)
         collectSound.setPitch(1.0f + successiveCollects * 0.1);
         collectSound.play();
         ++successiveCollects;
+
+        triggerParticles();
     }
     else if (collisionResponse == 2)
     {
@@ -109,12 +113,34 @@ void Ball::update(float dt)
         collectSound.setPitch(1.0f + successiveCollects * 0.1);
         collectSound.play();
         ++successiveCollects;
+
+        triggerParticles();
     }
+    
+    for (int i = particles.size() - 1; i >= 0; --i)
+    {
+        if (particles.at(i)->getActive())
+        {
+            particles.at(i)->update(dt);
+        }
+        else
+        {
+            particles.erase(particles.begin() + i);
+        }
+
+    }
+
+
 }
 
 void Ball::render()
 {
     _window->draw(_sprite);
+
+    for (auto& particle : particles)
+    {
+        particle->render();
+    }
 }
 
 void Ball::setVelocity(float coeff, float duration)
@@ -133,4 +159,13 @@ void Ball::setFireBall(float duration)
     }
     _isFireBall = false;
     _timeWithPowerupEffect = 0.f;    
+}
+
+void Ball::triggerParticles()
+{
+    for (int i = 0; i < 10; ++i)
+    {
+        Particle* particle{ particles.emplace_back(std::make_unique<Particle>(_window)).get() };
+        particle->setPosition(_sprite.getPosition());
+    }
 }

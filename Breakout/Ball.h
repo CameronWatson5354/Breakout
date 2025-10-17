@@ -4,7 +4,7 @@
 
 
 class GameManager;  // forward declaration
-
+class Particle;
 
 
 class Ball {
@@ -15,6 +15,8 @@ public:
     void render();
     void setVelocity(float coeff, float duration);
     void setFireBall(float duration);
+
+    void triggerParticles();
 
 private:
     sf::CircleShape _sprite;
@@ -34,6 +36,8 @@ private:
     sf::Sound collectSound;
 
     int successiveCollects{ 0 };
+
+    std::vector<std::unique_ptr<Particle>> particles;
 
 
     static constexpr float RADIUS = 10.0f;      
