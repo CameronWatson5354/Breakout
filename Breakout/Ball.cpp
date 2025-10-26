@@ -1,7 +1,8 @@
 #include "Ball.h"
 #include "GameManager.h" // avoid cicular dependencies
 
-#include "particle.h"
+#include "explodeParticle.h"
+#include "Particle.h"
 
 Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
     : _window(window), _velocity(velocity), _gameManager(gameManager),
@@ -165,7 +166,9 @@ void Ball::triggerParticles()
 {
     for (int i = 0; i < 10; ++i)
     {
-        Particle* particle{ particles.emplace_back(std::make_unique<Particle>(_window)).get() };
+        std::unique_ptr<ExplodeParticle> particle = std::make_unique<ExplodeParticle>(_window);
         particle->setPosition(_sprite.getPosition());
+
+        particles.emplace_back(std::move(particle));
     }
 }

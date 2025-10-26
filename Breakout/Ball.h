@@ -4,6 +4,7 @@
 
 
 class GameManager;  // forward declaration
+class ExplodeParticle;
 class Particle;
 
 
