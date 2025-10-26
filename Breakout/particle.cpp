@@ -26,3 +26,12 @@ bool Particle::getActive() const
 {
 	return active;
 }
+
+void Particle::setPosition(const sf::Vector2f& position)
+{
+	sf::Vector2f newPosition{ position };
+	newPosition.x -= sprite.getRadius();
+	newPosition.y -= sprite.getRadius();
+
+	sprite.setPosition(newPosition);
+}

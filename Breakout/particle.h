@@ -11,6 +11,8 @@ public:
 
 	bool getActive() const;
 
+	void setPosition(const sf::Vector2f& position);
+
 protected:
 	sf::RenderWindow* window;
 

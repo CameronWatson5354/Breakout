@@ -11,15 +11,13 @@ public:
 
 	virtual void update(const float dt) override;
 
-	void setPosition(const sf::Vector2f& position);
+	
 
 	
 
 private:
 
 
-
-	
 	float timeVariation{ 0.2f };
 
 	float radius{ 10.0f };

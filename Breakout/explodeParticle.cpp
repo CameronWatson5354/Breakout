@@ -55,12 +55,3 @@ void ExplodeParticle::update(const float dt)
 	sprite.setPosition(position);
 }
 
-void ExplodeParticle::setPosition(const sf::Vector2f& position)
-{
-	sf::Vector2f newPosition{ position };
-	newPosition.x -= sprite.getRadius();
-	newPosition.y -= sprite.getRadius();
-
-	sprite.setPosition(newPosition);
-}
-

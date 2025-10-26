@@ -172,3 +172,18 @@ void Ball::triggerParticles()
         particles.emplace_back(std::move(particle));
     }
 }
+
+sf::Vector2f Ball::getPosition(bool centre)
+{
+    if (!centre)
+    {
+        return _sprite.getPosition();
+    }
+    else
+    {
+        sf::Vector2f position{ _sprite.getPosition() };
+        position.x += _sprite.getGlobalBounds().width;
+        position.y += _sprite.getGlobalBounds().height;
+        return position;
+    }
+}
